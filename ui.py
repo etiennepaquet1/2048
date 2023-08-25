@@ -44,5 +44,8 @@ tkinter.ttk.Separator(my_frame, orient=tk.VERTICAL).grid(column=4, row=1, rowspa
 tkinter.ttk.Separator(my_frame, orient=tk.HORIZONTAL).grid(column=1, row=0, columnspan=4, sticky='ews')
 tkinter.ttk.Separator(my_frame, orient=tk.HORIZONTAL).grid(column=1, row=4, columnspan=4, sticky='wes')
 
+game_over_label = tk.Label(master=root, text="")
+game_over_label.pack()
+
 quit_button = tk.Button(master=root, text="Quit", command=root.destroy)
 quit_button.pack()

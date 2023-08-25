@@ -20,6 +20,12 @@ def addNewNumber(emptyCells, grid):
         n = randint(0, len(emptyCells) - 1)
     except ValueError:
         print("Game Over. Better luck next time!")
+        game_over_label.config(text="Game Over. Better luck next time!", font=("Helvetica", 48))
+        left_button.config(command=lambda: None)
+        right_button.config(command=lambda: None)
+        up_button.config(command=lambda: None)
+        down_button.config(command=lambda: None)
+
         return False
     y, x = emptyCells[n]
     grid[y][x] = choice([2, 4])
@@ -70,10 +76,18 @@ def initializeCommands():
     down_button.config(command=lambda: turn('d'))
 
 
-if __name__ == '__main__':
+def main():
     global grid
+    grid = [[0] * 4 for _ in range(4)]
     emptyCells = [(y, x) for y in range(4) for x in range(4)]
     addNewNumber(emptyCells, grid)
     initializeCommands()
     updateUI()
+
+
+if __name__ == '__main__':
+    retry_button = tk.Button(master=root, text="Retry", command=main)
+    retry_button.pack()
+
+    main()
     root.mainloop()
