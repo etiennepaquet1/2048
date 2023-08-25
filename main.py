@@ -1,10 +1,17 @@
 import Move
 from random import randint, choice
+from ui import *
 
 
 def printGrid(grid):
     for row in grid:
         print(row)
+
+
+def updateUI():
+    for y in range(4):
+        for x in range(4):
+            labels[y][x].config(text=grid[y][x])
 
 
 def addNewNumber(emptyCells, grid):
@@ -49,25 +56,24 @@ def move(direction: Move, grid):
                 grid[y][x] = val
 
 
-def main():
-    grid = [[0] * 4 for i in range(4)]
-    while True:
-        emptyCells = [(y, x) for y in range(4) for x in range(4) if not grid[y][x]]
-        if not addNewNumber(emptyCells, grid): return
-        printGrid(grid)
-        while True:
-            try:
-                m = Move.moveDict[input("Make your move")]
-            except KeyError:
-                print('Invalid Move.')
-            else:
-                break
-        move(m, grid)
+def turn(direction):
+    move(Move.moveDict[direction], grid)
+    emptyCells = [(y, x) for y in range(4) for x in range(4) if not grid[y][x]]
+    if not addNewNumber(emptyCells, grid): return
+    updateUI()
+
+
+def initializeCommands():
+    left_button.config(command=lambda: turn('l'))
+    right_button.config(command=lambda: turn('r'))
+    up_button.config(command=lambda: turn('u'))
+    down_button.config(command=lambda: turn('d'))
 
 
 if __name__ == '__main__':
-    while True:
-        i = input('Welcome to 2048! Type "p" to play, or "e" to exit.')
-        if i == 'e': exit()
-        elif i == 'p': main()
-        else: print('Invalid input')
+    global grid
+    emptyCells = [(y, x) for y in range(4) for x in range(4)]
+    addNewNumber(emptyCells, grid)
+    initializeCommands()
+    updateUI()
+    root.mainloop()
